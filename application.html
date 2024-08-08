@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Price Suggestion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Price Suggestion</h1>
+    <form id="myForm" action="/predict" method="post">
+      <div class="input-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter product name">
+      </div>
+      <div class="input-group">
+        <label for="item_description">Item Description:</label>
+        <input type="text" id="item_description" name="item_description" placeholder="Enter item description">
+      </div>
+      <div class="input-group">
+        <label for="brand_name">Brand Name:</label>
+        <input type="text" id="brand_name" name="brand_name" placeholder="Enter brand name">
+      </div>
+      <div class="input-group">
+        <label for="category_name">Category Name:</label>
+        <input type="text" id="category_name" name="category_name" placeholder="Enter category name">
+      </div>
+      <div class="input-group">
+        <label for="item_condition">Item Condition:</label>
+        <input type="text" id="item_condition" name="item_condition" placeholder="Enter item condition">
+      </div>
+      <div class="input-group">
+        <label for="num_vars">Number of Variables:</label>
+        <input type="number" id="num_vars" name="num_vars" placeholder="Enter number of variables">
+      </div>
+      <button class="button" id="calculate">Calculate</button>
+      <div id="result"></div>
+    </form>
+
+    <script>
+      const form = document.getElementById('myForm');
+      const resultElement = document.getElementById('result');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        fetch('/predict', {
+          method: 'POST',
+          body: new FormData(form)
+        })
+        .then(response => response.json())
+        .then(data => {
+          resultElement.innerHTML = `Predicted price: ${data.price}`;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      });
+    </script>
+  </div>
+</body>
+</html>
